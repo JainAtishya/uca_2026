@@ -1,48 +1,41 @@
+
 import java.util.*;
 
 public class CountSmallerNumbersAfterSelf {
 
-
     static void mergeSort(int[] nums, int[] indexes, int[] ans, int low, int high) {
 
-        if(low >= high)
+        if (low >= high) {
             return;
+        }
 
+        int mid = low + (high - low) / 2;
 
-        int mid = low + (high-low)/2;
+        mergeSort(nums, indexes, ans, low, mid);
+        mergeSort(nums, indexes, ans, mid + 1, high);
 
-
-        mergeSort(nums,indexes,ans,low,mid);
-        mergeSort(nums,indexes,ans,mid+1,high);
-
-
-        merge(nums,indexes,ans,low,mid,high);
+        merge(nums, indexes, ans, low, mid, high);
     }
 
+    static void merge(int[] nums, int[] indexes, int[] ans, int low, int mid, int high) {
 
-
-    static void merge(int[] nums,int[] indexes,int[] ans,int low,int mid,int high){
-
-        int[] temp = new int[high-low+1];
-
+        int[] temp = new int[high - low + 1];
 
         int left = low;
-        int right = mid+1;
+        int right = mid + 1;
 
         int count = 0;
         int k = 0;
 
+        while (left <= mid && right <= high) {
 
-        while(left<=mid && right<=high){
-
-            if(nums[indexes[right]] < nums[indexes[left]]){
+            if (nums[indexes[right]] < nums[indexes[left]]) {
 
                 count++;
 
                 temp[k++] = indexes[right++];
 
-            }
-            else{
+            } else {
 
                 ans[indexes[left]] += count;
 
@@ -50,57 +43,50 @@ public class CountSmallerNumbersAfterSelf {
             }
         }
 
-
-        while(left<=mid){
+        while (left <= mid) {
 
             ans[indexes[left]] += count;
 
             temp[k++] = indexes[left++];
         }
 
-
-        while(right<=high){
+        while (right <= high) {
 
             temp[k++] = indexes[right++];
         }
 
-
-        for(int i=low;i<=high;i++){
-            indexes[i]=temp[i-low];
+        for (int i = low; i <= high; i++) {
+            indexes[i] = temp[i - low];
         }
     }
 
+    public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args){
+        int n = sc.nextInt();
 
-        Scanner sc=new Scanner(System.in);
+        int[] nums = new int[n];
 
-        int n=sc.nextInt();
-
-        int[] nums=new int[n];
-
-        for(int i=0;i<n;i++){
-            nums[i]=sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
         }
 
+        int[] indexes = new int[n];
 
-        int[] indexes=new int[n];
+        int[] ans = new int[n];
 
-        int[] ans=new int[n];
-
-
-        for(int i=0;i<n;i++){
-            indexes[i]=i;
+        for (int i = 0; i < n; i++) {
+            indexes[i] = i;
         }
 
+        mergeSort(nums, indexes, ans, 0, n - 1);
 
-        mergeSort(nums,indexes,ans,0,n-1);
-
-
-        for(int x:ans){
-            System.out.print(x+" ");
+        for (int x : ans) {
+            System.out.print(x + " ");
         }
+
+        sc.close();
 
     }
 }

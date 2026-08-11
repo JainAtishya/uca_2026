@@ -15,12 +15,11 @@ class BitwiseXOR {
         int num1 = sc.nextInt();
         int num2 = sc.nextInt();
         System.out.println(bitXor(num1, num2));
+        sc.close();
 
     }
 
 }
-
-
 
 /* 
  * bitXor - x^y using only ~ and & 
